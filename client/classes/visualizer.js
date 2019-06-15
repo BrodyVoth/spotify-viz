@@ -34,25 +34,7 @@ export default class Visualizer {
    * @method hooks - Attach hooks to interval change events. 
    */
   hooks () {
-    this.sync.on('tatum', tatum => {
-      
-    })
 
-    this.sync.on('section', section => {
-      
-    })
-
-    this.sync.on('beat', beat => {
-      
-    })
-
-    this.sync.on('bar', bar => {
-
-    })
-
-    this.sync.on('section', section => {
-
-    })
   }
 
   /**
