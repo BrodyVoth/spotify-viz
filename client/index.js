@@ -1,9 +1,10 @@
 import { auth } from './classes/sync'
-import Hello from './hello-visualizer'
 import Template from './template'
+import Example from './example'
 
 if (window.location.hash === '#start') {
-  const hello = new Template()
+  // const template = new Template()
+  const example = new Example()
 } else {
   auth()
 }
