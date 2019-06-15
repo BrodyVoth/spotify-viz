@@ -1,7 +1,7 @@
 {
-  "name": "kaleidosync",
-  "version": "3.4.0",
-  "description": "HTML5 Spotify visualizer, powered by the Echo Nest.",
+  "name": "spotify-sync",
+  "version": "1.0.0",
+  "description": "Quickly prototype Spotify visualizers.",
   "scripts": {
     "serve": "concurrently \"node ./server/index.js\" \"webpack-dev-server --config ./webpack/dev.js\"",
     "build": "webpack --config ./webpack/prod.js"
