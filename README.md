@@ -83,5 +83,4 @@ Try not to rely on `volumeSmoothing` alone for visual beat detection; any single
 
 #### Getting Started
 
-You'll find the front-end entry in `/client/index.js`. Included in the project are `example.js` – showing a very basic visualization – and `template.js`, which I intended to be your starting point. 
-
+You'll find the front-end entry in `/client/index.js`. Included in the project is `example.js`, which you'll see when you first run the project and authenticate with Spotify. `template.js` is what I intended to be your starting point. 
