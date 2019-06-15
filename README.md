@@ -15,7 +15,7 @@ npm run serve
 
 #### Hello World
 
-The `Visualizer` class containers two class instances – `Sync` and `Sketch`. `Sync` keeps track of your currently playing Spotify track and provides an interface to determine the current active interval of each type (`tatums`, `segments`, `beats`, `bars`, and `sections`). `Sketch` is a small canvas utility that creates a `<canvas>` element, appends it to the DOM, sizes it to the window, and initializes a 2d context. It will automatically scale according to the device's `devicePixelRatio`, unless you specify otherwise. `Sketch` will automatically handle resizing & scaling of the `<canvas>` on window resize. 
+The `Visualizer` class contains two class instances – `Sync` and `Sketch`. `Sync` keeps track of your currently playing Spotify track and provides an interface to determine the current active interval of each type (`tatums`, `segments`, `beats`, `bars`, and `sections`). `Sketch` is a small canvas utility that creates a `<canvas>` element, appends it to the DOM, sizes it to the window, and initializes a 2d context. It will automatically scale according to the device's `devicePixelRatio`, unless you specify otherwise. `Sketch` will automatically handle resizing & scaling of the `<canvas>` on window resize. 
 
 `Sketch` also provides an animation loop. When extending the `Visualizer` class, be sure to include the method `paint()`, as this defaults to the loop. If you're familiar with `requestAnimationFrame()` you'd expect a high-resolution timestamp to be passed to the loop, but instead you receive an object with the following keys:
 * `ctx` – Active 2D Context
