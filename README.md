@@ -58,7 +58,7 @@ export default class HelloWorld extends Visualizer {
 ```
 `Sync` keeps track of your currently playing Spotify track and provides an interface to determine the current active interval of each type (`tatums`, `segments`, `beats`, `bars`, and `sections`) in addition to the active `volume`. Upon instantiating an instance of an extended `Visualizer`, its `Sync` instance will automatically begin pinging Spotify for your currently playing track.
 
-Within the animation loop we can reference `this.sync` to access to the current active volume and current active intervals.
+Within the animation loop we can reference keys on `this.sync` to access the current active volume and current active intervals.
 
 ```javascript
 import Visualizer from './classes/visualizer'
