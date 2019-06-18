@@ -67,43 +67,15 @@ export function drawShape (ctx, vertices) {
   return ctx
 }
 
-export function sin (ctx, xOffset, yOffset, amplitude, frequency, {
-  tick = 1,
-  fillBelow = false,
-  fillAbove = false
-} = {}) {
+export function sin (ctx, xOffset, yOffset, amplitude, frequency, tick = 5) {
   const y = x => (amplitude * Math.sin((x / frequency) + xOffset) + yOffset)
-
   const { width } = ctx.canvas 
-
   ctx.beginPath()
-
-  for (var x = 0; x < width; x += tick) {
-    if (x === 0) {
+  for (var x = -50; x < width + 50; x += tick) {
+    if (x === -50) {
       ctx.moveTo(x, y(x))
     } else {
       ctx.lineTo(x, y(x))
     }
-
-    if (x === width - 1) {
-      if (fillBelow === true) {
-        ctx.lineTo(x, ctx.canvas.height)
-        ctx.lineTo(0, ctx.canvas.height)
-      }
-    }
-  }
-
-  if (fillBelow === true) {
-    ctx.lineTo(ctx.canvas.width / window.devicePixelRatio, ctx.canvas.height / window.devicePixelRatio)
-    ctx.lineTo(0, ctx.canvas.height / window.devicePixelRatio)
-    ctx.closePath()
-    ctx.fill()
-  } else if (fillAbove === true) {
-    ctx.lineTo(ctx.canvas.width / window.devicePixelRatio, 0)
-    ctx.lineTo(0, 0)
-    ctx.closePath()
-    ctx.fill()
-  } else {
-    ctx.stroke()
   }
 }
