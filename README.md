@@ -11,7 +11,7 @@ npm run serve
 ```
 
 5) Visit `http://localhost:8000` and log in with your Spotify account. 
-6) Play a song in your Spotify client of choice. The visualizer will take a moment to sync before initializing.
+6) Play a song in your Spotify client of choice. The example visualizer will take a moment to sync before initializing.
 
 #### Hello World
 
@@ -63,6 +63,7 @@ class HelloWorld extends Visualizer {
   paint ({ ctx, height, width, now }) {
     const volume = this.sync.volume
     const beat = this.sync.getInterval('beat')
+    // your creativity here
   }
 }
 ```
@@ -84,3 +85,5 @@ Try not to rely on `volumeSmoothing` alone for visual beat detection; any single
 #### Getting Started
 
 You'll find the front-end entry in `/client/index.js`. Included in the project is `example.js`, which you'll see when you first run the project and authenticate with Spotify. `template.js` is what I intended to be your starting point. 
+
+Ping me if you have any comments or questions! My contact info is available on my website: https://zachwinter.com/

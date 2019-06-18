@@ -1,6 +1,5 @@
 export const PI = Math.PI
-export const PI2 = PI * 2
-export const PI180 = PI / 180
+export const TWO_PI = PI * 2
 
 export function toRadians (angle) {
 	return PI * angle / 180
@@ -46,7 +45,7 @@ export function star (points, innerRadius, outerRadius, cx = 0, cy = 0, rotation
   return { outer, inner, vertices }
 }
 
-export function circle (ctx, x, y, radius, start = 0, end = PI2) {
+export function circle (ctx, x, y, radius, start = 0, end = TWO_PI) {
 	ctx.beginPath()
 	ctx.arc(x, y, radius, start, end)
 	ctx.closePath()
