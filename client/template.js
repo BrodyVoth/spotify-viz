@@ -1,6 +1,4 @@
 import Visualizer from './classes/visualizer'
-import { interpolateRgb, interpolateBasis } from 'd3-interpolate'
-import { getRandomElement } from './util/array'
 
 export default class Template extends Visualizer {
   constructor () {
