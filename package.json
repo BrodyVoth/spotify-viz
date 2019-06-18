@@ -20,6 +20,7 @@
   "author": "Zach Winter",
   "license": "MIT",
   "dependencies": {
+    "compression": "^1.7.4",
     "cookie-parser": "^1.4.3",
     "d3-array": "^2.2.0",
     "d3-color": "^1.2.3",
