@@ -5,7 +5,7 @@ import { sin, circle } from './util/canvas'
 
 export default class Example extends Visualizer {
   constructor () {
-    super({ volumeSmoothing: 10 })
+    super({ volumeSmoothing: 30 })
     this.theme = ['#18FF2A', '#7718FF', '#06C5FE', '#FF4242', '#18FF2A']
   }
 
@@ -17,18 +17,16 @@ export default class Example extends Visualizer {
   }
 
   paint ({ ctx, height, width, now }) {
-    const bar = interpolateBasis([0, this.sync.volume * 10, 0])(this.sync.bar.progress)
-    const beat = interpolateBasis([0, this.sync.volume * 300, 0])(this.sync.beat.progress)
-    ctx.fillStyle = 'rgba(0, 0, 0, .08)'
+    const beat = interpolateBasis([0, 200, 0])(this.sync.beat.progress)
+    ctx.fillStyle = 'rgba(0, 0, 0, .075)'
     ctx.fillRect(0, 0, width, height)
-    ctx.lineWidth = bar 
+    ctx.lineWidth = beat * 2
     ctx.strokeStyle = interpolateRgb(this.lastColor, this.nextColor)(this.sync.bar.progress)
     sin(ctx, now / 50, height / 2, this.sync.volume * 50, 100)
     ctx.stroke()
     ctx.fillStyle = 'rgba(0, 0, 0, 1)'
     ctx.beginPath()
-    ctx.lineWidth = beat
-    circle(ctx, width / 2, height / 2, this.sync.volume * height / 5 + beat / 10)
+    circle(ctx, width / 2, height / 2, this.sync.volume * height / 5 + beat / 2)
     ctx.stroke()
     ctx.fill()
   }
