@@ -2,7 +2,7 @@ import Visualizer from './classes/visualizer'
 import { interpolateRgb, interpolateBasis } from 'd3-interpolate'
 import { getRandomElement } from './util/array'
 
-export default class HelloWorld extends Visualizer {
+export default class Template extends Visualizer {
   constructor () {
     super({ volumeSmoothing: 100 })
   }
@@ -30,15 +30,11 @@ export default class HelloWorld extends Visualizer {
   }
 
   paint ({ ctx, height, width, now }) {
-    /**
-
-    this.sync.volume
-    this.sync.tatum
-    this.sync.segment
-    this.sync.beat
-    this.sync.bar
-    this.sync.section
-
-    */
+    // this.sync.volume
+    // this.sync.tatum
+    // this.sync.segment
+    // this.sync.beat
+    // this.sync.bar
+    // this.sync.section
   }
 }
