@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const request = require('request')
-const config = require('../config')
 
 router.get('/', (req, res, next) => {
   const refresh_token = req.query.token
@@ -14,7 +13,7 @@ router.get('/', (req, res, next) => {
 
   const authOptions = {
     url: 'https://accounts.spotify.com/api/token',
-    headers: { 'Authorization': 'Basic ' + (new Buffer(config.client_id + ':' + config.client_secret).toString('base64')) },
+    headers: { 'Authorization': 'Basic ' + (new Buffer(process.env.CLIENT_ID + ':' + process.env.CLIENT_SECRET).toString('base64')) },
     form: {
       refresh_token,
       grant_type: 'refresh_token'

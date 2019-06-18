@@ -95,8 +95,8 @@ export default class Sync {
    * @method getNewToken - Retrieve new access token from server. 
    */
   async getNewToken () {
-    const { data } = await get(`http://localhost:8001/refresh?token=${this.state.api.tokens.refreshToken}`)
-    cookies.set('KALEIDOSYNC_ACCESS_TOKEN', data.access_token)
+    const { data } = await get(`${PROJECT_ROOT}/refresh?token=${this.state.api.tokens.refreshToken}`)
+    cookies.set('SPOTIFY_ACCESS_TOKEN', data.access_token)
     this.state.api.tokens.accessToken = data.access_token
     this.state.api.headers = {
       'Authorization': 'Bearer ' + this.state.api.tokens.accessToken,
@@ -344,6 +344,6 @@ export default class Sync {
 }
 
 export async function auth () {
-  const { data } = await get('http://localhost:8001/auth')
-  window.location.href = `http://localhost:8001/login?auth_id=${data.auth_id}`
+  const { data } = await get(`${PROJECT_ROOT}/auth`)
+  window.location.href = `${PROJECT_ROOT}/login?auth_id=${data.auth_id}`
 }
