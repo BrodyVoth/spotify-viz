@@ -17,7 +17,7 @@ export default class Example extends Visualizer {
   }
 
   paint ({ ctx, height, width, now }) {
-    const beat = interpolateBasis([0, 100, 0])(this.sync.beat.progress)
+    const beat = interpolateBasis([0, 200, 0])(this.sync.beat.progress)
     ctx.fillStyle = 'rgba(0, 0, 0, .075)'
     ctx.fillRect(0, 0, width, height)
     ctx.lineWidth = beat * 2
@@ -26,7 +26,7 @@ export default class Example extends Visualizer {
     ctx.stroke()
     ctx.fillStyle = 'rgba(0, 0, 0, 1)'
     ctx.beginPath()
-    circle(ctx, width / 2, height / 2, this.sync.volume * height / 5 + beat)
+    circle(ctx, width / 2, height / 2, this.sync.volume * height / 5 + beat / 2)
     ctx.stroke()
     ctx.fill()
   }

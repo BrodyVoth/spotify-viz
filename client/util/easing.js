@@ -23,7 +23,7 @@ export const easingFunctions = {
  * @param { string } method – Selected easing function.
  * @param { integer } smoothing – Smoothing factor. Increase value to reduce the effect of the easing function.
  */
-export default function ease (t, method = 'easeInOutCubic') {
+export default function ease (t, method = 'easeOutQuart') {
   if (!easingFunctions[method]) throw new Error(`Unknown easing function "${method}"`) 
   const progress = Math.min(Math.max(0, t), 1)
   return easingFunctions[method](progress)
