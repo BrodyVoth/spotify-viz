@@ -7,7 +7,6 @@ The Echo Nest prides itself on the comprehensive algorithmic analysis of music. 
 
 > NOTE:  For now I've only included support for 2D `<canvas>` contexts, mainly because that's where my animation experience lies and I wanted to get this thing out the door. I'm going to be including support for WebGL contexts soon (I'm looking at you, `three.js`). 
 
-
 ## Running Locally
 1. Create a new Spotify app in your [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/).
 2. Add `http://localhost:8001/callback` to your app's Redirect URIs. Note your app's `Client ID` and `Client Secret`. 
@@ -148,6 +147,9 @@ A configuration object can be passed to the `super()` call of your extended `Vis
 * The `Sync` class normalizes volume across the entire track by keeping tabs on a fixed range of (several hundred) volume samples. `Sync` uses `d3.scale` to continously map volume to a value between the range of `0` and `1` (unclamped), where `0` represents the **lowest** volume within our cached samples and `1` represents the **average** volume within our cached samples. This allows the `volume` value to inherit the dynamic range of any portion of the song – be it quiet or loud – and maintain visual balance throughout the track without compromising a sense of visual reactivity. 
 
 * Under the hood, `volumeSmoothing` is the number of most recent volume samples that are averaged and compared against our cached samples to derive the current `volume` value.
+
+## Simple Demo
+You can see a live version of `./client/example.js` hosted at https://spotify-viz-demo.herokuapp.com; once you authenticate with your Spotify account give the visualizer a moment to initialize (playing a song in your Spotify client of choice would also be helpful).
 
 ## Wrapping Up
 
