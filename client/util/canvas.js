@@ -2,34 +2,34 @@ export const PI = Math.PI
 export const TWO_PI = PI * 2
 
 export function toRadians (angle) {
-	return PI * angle / 180
+  return PI * angle / 180
 }
 
 export function x (radius, theta, cx = 0) {
-	return radius * Math.cos(theta) + cx
+  return radius * Math.cos(theta) + cx
 }
 
 export function y (radius, theta, cy = 0) {
-	return radius * Math.sin(theta) + cy
+  return radius * Math.sin(theta) + cy
 }
 
 export function coords (radius, theta, cx = 0, cy = 0) {
-	return {
-		x: x(radius, theta, cx),
-		y: y(radius, theta, cy)
-	}
+  return {
+    x: x(radius, theta, cx),
+    y: y(radius, theta, cy)
+  }
 }
 
 export function polygon (sides, radius, cx = 0, cy = 0, rotation = 0) {
-	const angle = 360/sides
-	const vertices = []
+  const angle = 360/sides
+  const vertices = []
 
-	for (var i = 0; i < sides; i++) {
-		const _coords = coords(radius, toRadians((angle * i) + rotation), cx, cy)
-		vertices.push(_coords)
-	}
+  for (var i = 0; i < sides; i++) {
+    const _coords = coords(radius, toRadians((angle * i) + rotation), cx, cy)
+    vertices.push(_coords)
+  }
 
-	return vertices
+  return vertices
 }
 
 export function star (points, innerRadius, outerRadius, cx = 0, cy = 0, rotation = 0, round = false) {
@@ -46,10 +46,10 @@ export function star (points, innerRadius, outerRadius, cx = 0, cy = 0, rotation
 }
 
 export function circle (ctx, x, y, radius, start = 0, end = TWO_PI) {
-	ctx.beginPath()
-	ctx.arc(x, y, radius, start, end)
-	ctx.closePath()
-	return ctx
+  ctx.beginPath()
+  ctx.arc(x, y, radius, start, end)
+  ctx.closePath()
+  return ctx
 }
 
 export function drawShape (ctx, vertices) {
