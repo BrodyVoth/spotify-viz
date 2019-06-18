@@ -10,27 +10,24 @@ export default class Example extends Visualizer {
   }
 
   hooks () {
-    this.sync.on('bar', bar => {
+    this.sync.on('beat', beat => {
       this.lastColor = this.nextColor || getRandomElement(this.theme)
       this.nextColor = getRandomElement(this.theme.filter(color => color !== this.nextColor))
     })
   }
 
   paint ({ ctx, height, width, now }) {
-    const volume = this.sync.volume
-    const beat = this.sync.getInterval('beat')
-    const bar = this.sync.getInterval('bar')
-    const lineBeat = interpolateBasis([2, 300, 2])(beat.progress)
-    const sizeBeat = interpolateBasis([0, 150, 0])(beat.progress)
-    ctx.fillStyle = 'rgba(0, 0, 0, .1)'
+    const lineBeat = interpolateBasis([2, 250, 2])(this.sync.beat.progress)
+    const sizeBeat = interpolateBasis([0, 250, 0])(this.sync.bar.progress)
+    ctx.fillStyle = 'rgba(0, 0, 0, .25)'
     ctx.fillRect(0, 0, width, height)
     ctx.lineWidth = lineBeat
-    ctx.strokeStyle = interpolateRgb(this.lastColor, this.nextColor)(bar.progress)
-    sin(ctx, now/50, height/2, volume*50, 100)
+    ctx.strokeStyle = interpolateRgb(this.lastColor, this.nextColor)(this.sync.beat.progress)
+    sin(ctx, now / 50, height / 2, this.sync.volume * 50, 100)
     ctx.stroke()
     ctx.fillStyle = 'rgba(0, 0, 0, 1)'
     ctx.beginPath()
-    circle(ctx, width/2, height/2, volume * height/5 + sizeBeat)
+    circle(ctx, width / 2, height / 2, this.sync.volume * height / 5 + sizeBeat)
     ctx.stroke()
     ctx.fill()
   }

@@ -30,9 +30,15 @@ export default class HelloWorld extends Visualizer {
   }
 
   paint ({ ctx, height, width, now }) {
-    const volume = this.sync.volume
-    const beat = this.sync.getInterval('beat')
+    /**
 
-    console.log(volume, beat.index)
+    this.sync.volume
+    this.sync.tatum
+    this.sync.segment
+    this.sync.beat
+    this.sync.bar
+    this.sync.section
+
+    */
   }
 }

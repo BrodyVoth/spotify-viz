@@ -1,7 +1,7 @@
 {
-  "name": "spotify-sync",
-  "version": "1.0.0",
-  "description": "Quickly prototype Spotify visualizers.",
+  "name": "spotify-viz",
+  "version": "1.1.0",
+  "description": "Create realtime audio-reactive visuals, powered by Spotify.",
   "scripts": {
     "serve": "concurrently \"node ./server/index.js\" \"webpack-dev-server --config ./webpack/dev.js\"",
     "build": "webpack --config ./webpack/prod.js"

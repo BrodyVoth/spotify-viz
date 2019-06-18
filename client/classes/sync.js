@@ -268,6 +268,26 @@ export default class Sync {
     return this.state.active === true
   }
 
+  get tatum () {
+    return this.state.activeIntervals.tatums
+  }
+
+  get segment () {
+    return this.state.activeIntervals.segments
+  }
+  
+  get beat () {
+    return this.state.activeIntervals.beats
+  }
+
+  get bar () {
+    return this.state.activeIntervals.bars
+  }
+
+  get section () {
+    this.state.activeIntervals.sections
+  }
+
   /**
    * @method getInterval - Convenience method for retreiving active interval of type.
    * @param {string} type - Interval type, e.g. `beat` or `tatum`

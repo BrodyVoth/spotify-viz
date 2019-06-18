@@ -1,84 +1,14 @@
 # spotify-viz
 > Create realtime audio-reactive visuals, powered by Spotify.
 
-### The Echo Nest
 The Echo Nest prides itself on the comprehensive algorithmic analysis of music. Having been acquired by Spotify their data resources are publicly available via the Spotify API. Each song within Spotify's library have been fully analyzed: broken up into individual beats, segments, tatums, bars, and sections. There are variables assigned to describe mood, pitch, timber, and more – even how "danceable" a track is. With these tools creating realtime audio-reactive visuals is now possible without having to analyze the audio stream directly.
 
-### Under the Hood
+## **My goal for this project was to create a sketchpad for developers who are interested in using Spotify to explore audio-reactive visuals without having to worry about mapping the music to their main animation loop by hand.**
 
-It all starts with the `Visualizer` class, which you'll extend when creating your own sketches. The `Visualizer` class contains two class instances – `Sync` and `Sketch`. `Sync` keeps track of your currently playing Spotify track and provides an interface to determine the current active interval of each type (`tatums`, `segments`, `beats`, `bars`, and `sections`). `Sketch` is a small canvas utility that creates a `<canvas>` element, appends it to the DOM, sizes it to the window, and initializes a 2d context. It will automatically scale according to the device's `devicePixelRatio`, unless you specify otherwise. `Sketch` will automatically handle resizing & scaling of the `<canvas>` on window resize. In the near future I'll be expanding `Sketch` to accommodate WebGL contexts as well (I'm looking at you, `three.js`). 
+> NOTE:  For now I've only included support for 2D `<canvas>` contexts, mainly because that's where my animation experience lies and I wanted to get this thing out the door. I'm going to be including support for WebGL contexts soon (I'm looking at you, `three.js`). 
 
-`Sketch` also provides an animation loop. When extending the `Visualizer` class, be sure to include the method `paint()`, as this defaults to the loop. If you're familiar with `requestAnimationFrame()` you'd expect a high-resolution timestamp to be passed to the loop, but instead you receive an object with the following keys:
-* `ctx` – Active 2D Context
-* `width` – `<canvas>` Width (CSS)
-* `height` – `<canvas>` Height (CSS) 
-* `now` – High-Resolution Timestamp
 
-Another method you'll want to include when extending `Visualizer` is `hooks()`. Within this method you'll be able to subscribe to interval change events (e.g. "on every beat, do { foo }").
-
-Last but not least, the configuration object.
-
-```javascript
-{
-  volumeSmoothing: 100,
-  hidpi: true
-}
-```
-
-`volumeSmoothing` determines how reactive the visualizer is to changes in volume. Decrease the value for a more snappy, reactive effect. Increase the value for a smoother roll. `hidpi` renders the `<canvas>` according to the `devicePixelRatio`, if greater than 1.
-
-Try not to rely on `volumeSmoothing` alone for visual beat detection; any single value is not going to have the desired effect across all songs. Experiment with setting this value dynamically using track features like `energy` and `danceability` for greater flexibility.
-
-`spotify-viz` normalizes volume across the entire track, using `d3.scale` to continuously map dips and peaks in volume to the visual space on the screen. This results in the full utilization of your visual space uniformly across both quiet and louder sections of a track without compromising a sense of visual reactivity. 
-
-Putting it all together:
-
-```javascript
-import Visualizer from './classes/visualizer'
-
-export default class HelloWorld extends Visualizer {
-  constructor () {
-    super({
-      volumeSmoothing: 100,
-      hidpi: true
-    })
-  }
-  
-  hooks () {
-    this.sync.on('tatum', tatum => {
-      console.log(tatum)
-    })
-
-    this.sync.on('segment', segment => {
-      console.log(segment)
-    })
-
-    this.sync.on('beat', beat => {
-      console.log(beat)
-    })
-
-    this.sync.on('bar', bar => {
-      console.log(bar)
-    })
-
-    this.sync.on('section', section => {
-      console.log(section)
-    })
-  }
-
-  paint ({ ctx, height, width, now }) {
-    const volume = this.sync.volume
-    const beat = this.sync.getInterval('beat')
-    // your creativity here
-  }
-}
-```
-In the example above, notice within the animation loop we have `sync.volume` and `sync.getInterval()`. These are always in sync with your active track. When using `sync.getInterval()`, you receive the current active interval of your specified type. The object includes a `progress` key, mapped fromo `0` to `1` (e.g. `.425 === 42.5%`). You're also given `start` time, `elapsed` time, `duration`, and `index`. 
-
-The rest is up to you. :)
-
-### Run Locally
-
+## Running Locally
 1) Create a new Spotify app in your [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/).
 2) Add `http://localhost:8001/callback` to your app's Redirect URIs.
 2) Enter your app's `client_id` and `client_secret` to `config.json` in the server directory.
@@ -92,8 +22,129 @@ npm run serve
 5) Visit `http://localhost:8000` and log in with your Spotify account. 
 6) Play a song in your Spotify client of choice. The example visualizer will take a moment to sync before initializing.
 
-### Getting Started
-
 You'll find the front-end entry in `/client/index.js`. Included in the project is `example.js`, which you'll see when you first run the project and authenticate with Spotify. `template.js` is what I intended to be your starting point. 
 
-Ping me if you have any comments or questions! My contact info is available on my website: https://zachwinter.com/
+## Basic Anatomy
+It all starts with the `Visualizer` class, which you'll extend when creating your own sketches.
+
+```javascript
+import Visualizer from './classes/visualizer'
+
+export default class HelloWorld extends Visualizer {
+  constructor () {
+    super()
+  }
+}  
+```
+The `Visualizer` class contains two class instances – `Sketch` and `Sync`.
+
+`Sketch` is a small canvas utility that creates a `<canvas>` element, appends it to the DOM, sizes it to the window, and initializes a 2D context. It will automatically scale according to the device's `devicePixelRatio`, unless you specify otherwise. `Sketch` will automatically handle resizing & scaling of the `<canvas>` on window resize. `Sketch` also provides an animation loop; when extending the `Visualizer` class, be sure to include the method `paint()`, as this defaults to the loop. A single object of freebies is passed to the loop on every frame.
+
+```javascript
+import Visualizer from './classes/visualizer'
+
+export default class HelloWorld extends Visualizer {
+  constructor () {
+    super()
+  }
+
+  paint ({ now, ctx, width, height }) {
+    // now - High-Resolution Timestamp
+    // ctx - Active 2D Context
+    // width - <canvas> CSS Width
+    // height - <canvas> CSS Height 
+  }
+}  
+```
+`Sync` keeps track of your currently playing Spotify track and provides an interface to determine the current active interval of each type (`tatums`, `segments`, `beats`, `bars`, and `sections`) in addition to the active `volume`. Upon instantiating an instance of an extended `Visualizer`, its `Sync` instance will automatically begin pinging Spotify for your currently playing track.
+
+Within the animation loop we can reference `this.sync` to access to the current active volume and current active intervals.
+
+```javascript
+import Visualizer from './classes/visualizer'
+
+export default class HelloWorld extends Visualizer {
+  constructor () {
+    super()
+  }
+
+  paint ({ now, ctx, width, height }) {
+    console.log(this.sync.volume)
+    console.log(this.sync.beat)
+  }
+}  
+```
+
+An active interval object (e.g. `this.sync.beat`) includes a `progress` key, mapped from `0` to `1` (e.g. `.425` === `42.5%` complete). You're also given `start` time, `elapsed` time, `duration`, and `index`. 
+
+In addition to always having the active intervals at your fingertips within your main loop, you can use `Sync` to subscribe to interval updates by including a `hooks()` method on your class.
+
+```javascript
+import Visualizer from './classes/visualizer'
+
+export default class HelloWorld extends Visualizer {
+  constructor () {
+    super()
+  }
+
+  hooks () {
+    this.sync.on('tatum', tatum => {
+      // do something on every tatum
+    })
+
+    this.sync.on('segment', ({ index }) => {
+      if (index % 2 === 0) {
+        // do something on every second segment
+      }
+    })
+
+    this.sync.on('beat', ({ duration }) => {
+      // do something on every beat, using the beat's duration in milliseconds
+    })
+
+    this.sync.on('bar', bar => {
+      // you get...
+    })
+
+    this.sync.on('section', section => {
+      // ...the idea, friends
+    })
+  }
+
+  paint ({ now, ctx, width, height }) {
+    console.log(this.sync.volume)
+    console.log(this.sync.beat)
+  }
+}  
+```
+
+## Configuration
+
+A configuration object can be passed to the `super()` call of your extended `Visualizer` class. There are two configurable options:
+```javascript
+{
+  /**
+   * If true, render according to devicePixelRatio.
+   * DEFAULT: true
+   */
+  hidpi: true,
+
+  /**
+   * Decrease this value for higher sensitivity to volume change. 
+   * DEFAULT: 100
+   */
+  volumeSmoothing: 100
+}
+```
+
+## Notes On Volume
+
+* The `Sync` class normalizes volume across the entire track by keeping tabs on a fixed range of (several hundred) volume samples. `Sync` uses `d3.scale` to continously map volume to a value between the range of `0` and `1` (unclamped), where `0` represents the **lowest** volume within our cached samples and `1` represents the **average** volume within our cached samples. This allows the `volume` value to inherit the dynamic range of any portion of the song – be it quiet or loud – and maintain visual balance throughout the track without compromising a sense of visual reactivity. 
+
+* Under the hood, `volumeSmoothing` is the number of most recent volume samples that are averaged and compared against our cached samples to derive the current `volume` value.
+
+## Wrapping Up
+
+I highly recommend reading about interpolation functions if you're not yet familiar with them. I've included `d3-interpolate` as a dependency of this project; you can read its documentation here: https://github.com/d3/d3-interpolate
+
+Ping me if you have any comments or questions! I'd love to bring more heads in on this project if you have any interest in contributing. 
