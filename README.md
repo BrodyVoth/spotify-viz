@@ -144,7 +144,7 @@ A configuration object can be passed to the `super()` call of your extended `Vis
 
 ## Notes On Volume
 
-* The `Sync` class normalizes volume across the entire track by keeping tabs on a fixed range of (several hundred) volume samples. `Sync` uses `d3.scale` to continously map volume to a value between the range of `0` and `1` (unclamped), where `0` represents the **lowest** volume within our cached samples and `1` represents the **average** volume within our cached samples. This allows the `volume` value to inherit the dynamic range of any portion of the song – be it quiet or loud – and maintain visual balance throughout the track without compromising a sense of visual reactivity. 
+* The `Sync` class normalizes volume across the entire track by keeping tabs on a fixed range of (several hundred) volume samples. `Sync` uses `d3.scale` to continuously map volume to a value between the range of `0` and `1` (unclamped), where `0` represents the **lowest** volume within our cached samples and `1` represents the **average** volume within our cached samples. This allows the `volume` value to inherit the dynamic range of any portion of the song – be it quiet or loud – and maintain visual balance throughout the track without compromising a sense of visual reactivity. 
 
 * Under the hood, `volumeSmoothing` is the number of most recent volume samples that are averaged and compared against our cached samples to derive the current `volume` value.
 
