@@ -285,7 +285,7 @@ export default class Sync {
   }
 
   get section () {
-    this.state.activeIntervals.sections
+    return this.state.activeIntervals.sections
   }
 
   /**
