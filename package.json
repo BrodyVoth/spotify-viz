@@ -1,6 +1,6 @@
 {
   "name": "spotify-viz",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Create realtime audio-reactive visuals, powered by Spotify.",
   "scripts": {
     "start": "node ./server/index.js",

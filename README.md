@@ -149,15 +149,14 @@ You'll find the front-end entry in `/client/index.js`. Included in the project i
 
 * Under the hood, `volumeSmoothing` is the number of most recent volume samples that are averaged and compared against our cached samples to derive the current `volume` value.
 
-## Tips / Wrapping Up
-
-* I highly recommend reading about interpolation functions if you're not yet familiar with them. I've included `d3-interpolate` as a dependency of this project; you can read its documentation here: https://github.com/d3/d3-interpolate
-
 * When animating elements according to active volume, explore using `Math.pow()` to increase volume reactivity separately from configuring `volumeSmoothing`:
 
   ```javascript
   const volume = Math.pow(this.sync.volume, 3)
   ```
 
+## Wrapping Up
 
-* Ping me if you have any comments or questions! I'd love to bring more heads in on this project if you have any interest in contributing. 
+I highly recommend reading about interpolation functions if you're not yet familiar with them. I've included `d3-interpolate` as a dependency of this project; you can read its documentation here: https://github.com/d3/d3-interpolate
+
+Ping me if you have any comments or questions! I'd love to bring more heads in on this project if you have any interest in contributing. 
