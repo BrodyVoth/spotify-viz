@@ -61,10 +61,6 @@ export default class Example extends Visualizer {
           // console.log(palette)
           color1 = palette.LightVibrant.getHex()
           color2 = palette.DarkVibrant.getHex()
-          console.log(palette)
-          console.log(color1)
-          console.log(color2)
-
         })
 
         // ctx.drawImage(img, topLeftX, topLeftY);

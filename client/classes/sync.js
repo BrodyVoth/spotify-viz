@@ -146,6 +146,9 @@ export default class Sync {
    */
   async getTrackInfo (data) {
     const tick = window.performance.now()
+    if (data.item == null) {
+      alert('An error occurred. Please refresh the page.')
+    }
     const [ analysis, features ] = await Promise.all([
       get(this.state.api.trackAnalysis + data.item.id, { headers: this.state.api.headers }).then(res => res.data),
       get(this.state.api.trackFeatures + data.item.id, { headers: this.state.api.headers }).then(res => res.data),
