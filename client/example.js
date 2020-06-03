@@ -7,6 +7,7 @@ import * as Vibrant from 'node-vibrant'
 var currentSong = 'Default song'
 var resized = false
 
+
 // window.onresize = function resize() {
 //   resized = true
 // }
@@ -48,14 +49,15 @@ export default class Example extends Visualizer {
     var topLeftX = width / 2 - 320
     var topLeftY = height / 2 - 320
     
-    // if (currentSong != this.sync.state.currentlyPlaying.id || resized == true) {
+    if (currentSong != this.sync.state.currentlyPlaying.id || resized) {
       console.log(currentSong + ' does not equal ' + this.sync.state.currentlyPlaying.id)
-
 
       var img = new Image();
       img.src = this.sync.state.currentlyPlaying.album.images[0].url
       img.crossOrigin = "anonymous";
       img.onload = function() {
+        const canvas2 = document.getElementById('myCanvas');
+        const ctx2 = canvas2.getContext('2d');
         // Vibrant.from(img.src).getPalette((err, palette) => {
         //   console.log(palette)
         //   console.log(palette.Vibrant.getBodyTextColor())
@@ -67,22 +69,29 @@ export default class Example extends Visualizer {
         // })
 
         // ctx.drawImage(img, topLeftX, topLeftY);
-        var bg = ctx.getImageData(topLeftX, topLeftY + 160, 1, 1).data
-        ctx.fillStyle = 'rgba(' + bg[0] + ', ' + bg[1] + ', ' + bg[2] + ')'
-        ctx.fillRect(0, 0, width, height)
-        ctx.drawImage(img, topLeftX, topLeftY);
-        resized = false
+        ctx2.canvas.width  = width;
+        ctx2.canvas.height = height;
+        ctx2.drawImage(img, topLeftX, topLeftY);
+        var bg = ctx2.getImageData(topLeftX, topLeftY + 160, 1, 1).data
+        console.log(bg)
+        document.body.style.backgroundColor = 'rgba(' + bg[0] + ', ' + bg[1] + ', ' + bg[2] + ')'; 
+
+        // ctx.fillStyle = 'rgb(' + bg[0] + ', ' + bg[1] + ', ' + bg[2] + ')'
+        // ctx.fillRect(0, 0, width, height)
       }
+      // document.body.style.backgroundColor = 'rgba(0,5,0)'; 
+
+      resized = false
       // ctx.moveTo(width / 2, height / 2 + 360);
       // ctx.font = "50px Verdana";
       // ctx.textAlign = "center"; 
       // ctx.fillStyle = "white";
       // ctx.globalCompositeOperation='source-over';
       // ctx.fillText(this.sync.state.currentlyPlaying.name + ' by ' + this.sync.state.currentlyPlaying.artists[0].name, width / 2, height / 2 + 380);
-
+      console.log('reach here?')
       currentSong = this.sync.state.currentlyPlaying.id
-    // }
-
+    }
+    ctx.clearRect(0, 0, width, height);
     ctx.lineWidth = bar * 2
     ctx.strokeStyle = interpolateRgb(this.lastColor, this.nextColor)(this.sync.bar.progress)
     sin(ctx, now / 50, 0 + 80, this.sync.volume * 50, 100)
