@@ -42,7 +42,7 @@ export default class Example extends Visualizer {
   }
 
   paint ({ ctx, height, width, now }) {
-    const bar = interpolateBasis([0, this.sync.volume * 10, 0])(this.sync.bar.progress)
+    const bar = interpolateBasis([10, this.sync.volume * 10, 10])(this.sync.bar.progress)
     const beat = interpolateBasis([0, this.sync.volume * 300, 0])(this.sync.beat.progress)
     var topLeftX = width / 2 - 320
     var topLeftY = height / 2 - 320
