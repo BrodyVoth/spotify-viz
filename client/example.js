@@ -82,7 +82,6 @@ export default class Example extends Visualizer {
       // ctx.globalCompositeOperation='source-over';
       // ctx.fillText(this.sync.state.currentlyPlaying.name + ' by ' + this.sync.state.currentlyPlaying.artists[0].name, width / 2, height / 2 + 380);
 
-      console.log('reach here?')
       currentSong = this.sync.state.currentlyPlaying.id
     }
     ctx.clearRect(0, 0, width, height);
