@@ -7,6 +7,8 @@ import * as Vibrant from 'node-vibrant'
 var currentSong = 'Default song'
 var resized = false
 var bg = ""
+var color1 = ""
+var color2 = ""
 
 function resizedw(){
   resized = true
@@ -48,22 +50,22 @@ export default class Example extends Visualizer {
     if (currentSong != this.sync.state.currentlyPlaying.id || resized) {
       // console.log(currentSong + ' does not equal ' + this.sync.state.currentlyPlaying.id)
       document.getElementById("waitingDiv").style.visibility = "hidden"; 
-      
+
       var img = new Image();
       img.src = this.sync.state.currentlyPlaying.album.images[0].url
       img.crossOrigin = "anonymous";
       img.onload = function() {
         const canvas2 = document.getElementById('myCanvas');
         const ctx2 = canvas2.getContext('2d');
-        // Vibrant.from(img.src).getPalette((err, palette) => {
-        //   console.log(palette)
-        //   console.log(palette.Vibrant.getBodyTextColor())
-        //   var bg = palette.DarkMuted.getRgb()
-        //   console.log(bg)
-        //   ctx.fillStyle = 'rgba(' + bg[0] + ', ' + bg[1] + ', ' + bg[2] + ')'
-        //   ctx.fillRect(0, 0, width, height)
-        //   ctx.drawImage(img, width / 2 - 320, height / 2 - 320);
-        // })
+        Vibrant.from(img.src).getPalette((err, palette) => {
+          // console.log(palette)
+          color1 = palette.LightVibrant.getHex()
+          color2 = palette.DarkVibrant.getHex()
+          console.log(palette)
+          console.log(color1)
+          console.log(color2)
+
+        })
 
         // ctx.drawImage(img, topLeftX, topLeftY);
         ctx2.canvas.width  = width;
@@ -87,7 +89,7 @@ export default class Example extends Visualizer {
     }
     ctx.clearRect(0, 0, width, height);
     ctx.lineWidth = bar
-    ctx.strokeStyle = interpolateRgb(this.lastColor, this.nextColor)(this.sync.bar.progress)
+    ctx.strokeStyle = interpolateRgb(color1, color2)(this.sync.bar.progress)
     sin(ctx, now / 50, 0 + 80, this.sync.volume * 50, 100)
     ctx.stroke()
     sin(ctx, now / 50, height - 80, this.sync.volume * 50, 100)
