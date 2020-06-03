@@ -47,7 +47,8 @@ export default class Example extends Visualizer {
     
     if (currentSong != this.sync.state.currentlyPlaying.id || resized) {
       // console.log(currentSong + ' does not equal ' + this.sync.state.currentlyPlaying.id)
-
+      document.getElementById("waitingDiv").style.visibility = "hidden"; 
+      
       var img = new Image();
       img.src = this.sync.state.currentlyPlaying.album.images[0].url
       img.crossOrigin = "anonymous";
@@ -69,7 +70,7 @@ export default class Example extends Visualizer {
         ctx2.canvas.height = height;
         ctx2.drawImage(img, topLeftX, topLeftY);
         bg = ctx2.getImageData(topLeftX, topLeftY + 160, 1, 1).data
-        console.log(bg)
+        // console.log(bg)
         document.body.style.backgroundColor = 'rgba(' + bg[0] + ', ' + bg[1] + ', ' + bg[2] + ')'; 
       }
 
