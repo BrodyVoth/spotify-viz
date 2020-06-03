@@ -6,7 +6,7 @@ import * as Vibrant from 'node-vibrant'
 
 var currentSong = 'Default song'
 var resized = false
-var bg = ""
+var mostFrequent = ""
 var color1 = ""
 var color2 = ""
 
@@ -47,8 +47,9 @@ export default class Example extends Visualizer {
     var topLeftX = width / 2 - 320
     var topLeftY = height / 2 - 320
     
+    //do this only when it's detected to be a new song or the page was resized since last frame
     if (currentSong != this.sync.state.currentlyPlaying.id || resized) {
-      // console.log(currentSong + ' does not equal ' + this.sync.state.currentlyPlaying.id)
+
       document.getElementById("waitingDiv").style.visibility = "hidden"; 
 
       var img = new Image();
@@ -58,22 +59,62 @@ export default class Example extends Visualizer {
         const canvas2 = document.getElementById('myCanvas');
         const ctx2 = canvas2.getContext('2d');
         Vibrant.from(img.src).getPalette((err, palette) => {
-          // console.log(palette)
           color1 = palette.LightVibrant.getHex()
           color2 = palette.DarkVibrant.getHex()
         })
 
-        // ctx.drawImage(img, topLeftX, topLeftY);
         ctx2.canvas.width  = width;
         ctx2.canvas.height = height;
         ctx2.drawImage(img, topLeftX, topLeftY);
-        bg = ctx2.getImageData(topLeftX, topLeftY + 160, 1, 1).data
-        // console.log(bg)
-        document.body.style.backgroundColor = 'rgba(' + bg[0] + ', ' + bg[1] + ', ' + bg[2] + ')'; 
+
+        // get background color from border of art ----------------------------
+        let R = 0;
+        let G = 0;
+        let B = 0;
+        let colorList = []
+
+        // get rgb of left, top, and right lines of pixels from art
+        var bgNewLeft = ctx2.getImageData(topLeftX, topLeftY, 1, 640).data
+        var bgNewTop = ctx2.getImageData(topLeftX, topLeftY, 640, 1).data
+        var bgNewRight = ctx2.getImageData(topLeftX + 639, topLeftY, 1, 640).data
+        var bgNewBottom = ctx2.getImageData(topLeftX, topLeftY + 639, 640, 1).data
+
+        // append rgb values of each pixel to color list. every 4th item (alpha value) is skipped
+        for (let i=0; i < bgNewLeft.length; i+= 4) {
+          const r = bgNewLeft[i];
+          const g = bgNewLeft[i + 1];
+          const b = bgNewLeft[i + 2];
+
+          const r2 = bgNewTop[i];
+          const g2 = bgNewTop[i + 1];
+          const b2 = bgNewTop[i + 2];
+          
+          const r3 = bgNewRight[i];
+          const g3 = bgNewRight[i + 1];
+          const b3 = bgNewRight[i + 2];
+
+          const r4 = bgNewBottom[i];
+          const g4 = bgNewBottom[i + 1];
+          const b4 = bgNewBottom[i + 2];
+
+          colorList.push([r, g, b], [r2, g2, b2], [r3, g3, b3], [r4, g4, b4])
+        }
+
+        // find most common exact color
+        let counts = colorList.reduce((a, c) => {
+          a[c] = (a[c] || 0) + 1;
+          return a;
+        }, {});
+        let maxCount = Math.max(...Object.values(counts));
+        mostFrequent = Object.keys(counts).find(k => counts[k] === maxCount);
+
+        document.body.style.backgroundColor = 'rgba(' + mostFrequent + ')'; 
+        // end of background color --------------------------------------------
       }
 
       resized = false
 
+      // display song and artist name under album art
       // ctx.moveTo(width / 2, height / 2 + 360);
       // ctx.font = "50px Verdana";
       // ctx.textAlign = "center"; 
@@ -90,7 +131,7 @@ export default class Example extends Visualizer {
     ctx.stroke()
     sin(ctx, now / 50, height - 80, this.sync.volume * 50, 100)
     ctx.stroke()
-    ctx.fillStyle = 'rgba(' + bg[0] + ', ' + bg[1] + ', ' + bg[2] + ')'; 
+    ctx.fillStyle = 'rgba(' + mostFrequent + ')'; 
     ctx.beginPath()
     ctx.lineWidth = beat
     circle(ctx, width / 2, 0 - 30, (this.sync.volume * height / 5 + beat / 10) / 5)
