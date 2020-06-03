@@ -32,6 +32,7 @@
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "express-history-api-fallback": "^2.2.1",
+    "node-vibrant": "^3.1.5",
     "querystring": "^0.2.0",
     "regenerator-runtime": "^0.13.2",
     "request": "^2.88.0"
