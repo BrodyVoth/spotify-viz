@@ -14,7 +14,7 @@ import ease from '../util/easing'
  */
 export default class Sync {
   constructor ({
-    volumeSmoothing = 100,
+    volumeSmoothing = 10,
     pingDelay = 2500
   } = {}) {
     const accessToken = cookies.get('SPOTIFY_ACCESS_TOKEN')

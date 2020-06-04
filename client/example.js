@@ -116,17 +116,21 @@ export default class Example extends Visualizer {
     ctx.clearRect(0, 0, width, height);
     ctx.lineWidth = bar
     ctx.strokeStyle = interpolateRgb(color1, color2)(this.sync.bar.progress)
-    sin(ctx, now / 50, 0 + 80, this.sync.volume * 50, 100)
+    sin(ctx, -now / 80, 80, this.sync.volume * 70, 100)
     ctx.stroke()
-    sin(ctx, now / 50, height - 80, this.sync.volume * 50, 100)
+    sin(ctx, -now / 80, height - 80, this.sync.volume * 70, 100)
     ctx.stroke()
     ctx.fillStyle = 'rgba(' + mostFrequent + ')'; 
     ctx.beginPath()
     ctx.lineWidth = beat
-    circle(ctx, width / 2, 0 - 30, (this.sync.volume * height / 5 + beat / 10) / 5)
+    // circle(ctx, width / 2, -30, (this.sync.volume * height / 5 + beat / 10) / 5)
+    circle(ctx, -20, height / 2, (this.sync.volume * height / 5 + beat / 10) / 5)
+
     ctx.stroke()
     ctx.fill()
-    circle(ctx, width / 2, height + 30, (this.sync.volume * height / 5 + beat / 10) / 5)
+    // circle(ctx, width / 2, height + 30, (this.sync.volume * height / 5 + beat / 10) / 5)
+    circle(ctx, width + 20, height / 2, (this.sync.volume * height / 5 + beat / 10) / 5)
+
     ctx.stroke()
     ctx.fill()
   }
