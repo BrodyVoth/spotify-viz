@@ -10,6 +10,20 @@ var mostFrequent = ""
 var color1 = ""
 var color2 = ""
 
+//themes. 1: moving right, 2: moving left, 3: right and left, 4: left and right
+
+var mode = 0
+
+window.onclick = changeTheme
+
+function changeTheme() {
+  if (mode >= 3) {
+    mode = 0
+  } else {
+    mode += 1
+  }
+}
+
 function resizedw(){
   resized = true
 }
@@ -113,12 +127,15 @@ export default class Example extends Visualizer {
 
       currentSong = this.sync.state.currentlyPlaying.id
     }
+    var topDirections = [-now, now , -now, now]
+    var bottomDirections = [-now, now, now, -now]
+
     ctx.clearRect(0, 0, width, height);
     ctx.lineWidth = bar
     ctx.strokeStyle = interpolateRgb(color1, color2)(this.sync.bar.progress)
-    sin(ctx, -now / 80, 80, this.sync.volume * 70, 100)
+    sin(ctx, topDirections[mode] / 80, 80, this.sync.volume * 70, 100)
     ctx.stroke()
-    sin(ctx, -now / 80, height - 80, this.sync.volume * 70, 100)
+    sin(ctx, bottomDirections[mode] / 80, height - 80, this.sync.volume * 70, 100)
     ctx.stroke()
     ctx.fillStyle = 'rgba(' + mostFrequent + ')'; 
     ctx.beginPath()
