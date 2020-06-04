@@ -1,5 +1,6 @@
 require('dotenv').config()
 
+const sslRedirect = require('heroku-ssl-redirect');
 const path = require('path')
 const express = require('express')
 const cookieParser = require('cookie-parser')
@@ -9,6 +10,9 @@ const compression = require('compression')
 const app = express()
 const root = path.resolve(__dirname, '../dist')
 const port = process.env.PORT || 8001
+
+// enable ssl redirect
+app.use(sslRedirect());
 
 if (process.env.NODE_ENV === 'development') {
   app.use((req, res, next) => {
