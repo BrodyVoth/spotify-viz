@@ -10,14 +10,14 @@ var mostFrequent = ""
 var color1 = ""
 var color2 = ""
 
-//themes. 1: moving right, 2: moving left, 3: right and left, 4: left and right
-
-var mode = 0
+//themes. 1: moving right, 2: moving left, 3: right and left, 4: left and right, 5: no effects
 
 window.onclick = changeTheme
 
+var mode = 0
+
 function changeTheme() {
-  if (mode >= 3) {
+  if (mode >= 4) {
     mode = 0
   } else {
     mode += 1
@@ -38,7 +38,6 @@ export default class Example extends Visualizer {
   constructor () {
     super({ volumeSmoothing: 10 })
     this.theme = ['#18FF2A', '#7718FF', '#06C5FE', '#FF4242', '#18FF2A']
-    
   }
 
   hooks () {
@@ -131,24 +130,26 @@ export default class Example extends Visualizer {
     var bottomDirections = [-now, now, now, -now]
 
     ctx.clearRect(0, 0, width, height);
-    ctx.lineWidth = bar
-    ctx.strokeStyle = interpolateRgb(color1, color2)(this.sync.bar.progress)
-    sin(ctx, topDirections[mode] / 80, 80, this.sync.volume * 70, 100)
-    ctx.stroke()
-    sin(ctx, bottomDirections[mode] / 80, height - 80, this.sync.volume * 70, 100)
-    ctx.stroke()
-    ctx.fillStyle = 'rgba(' + mostFrequent + ')'; 
-    ctx.beginPath()
-    ctx.lineWidth = beat
-    // circle(ctx, width / 2, -30, (this.sync.volume * height / 5 + beat / 10) / 5)
-    circle(ctx, -20, height / 2, (this.sync.volume * height / 5 + beat / 10) / 5)
+    if (mode != 4) {
+      ctx.lineWidth = bar
+      ctx.strokeStyle = interpolateRgb(color1, color2)(this.sync.bar.progress)
+      sin(ctx, topDirections[mode] / 80, 80, this.sync.volume * 70, 100)
+      ctx.stroke()
+      sin(ctx, bottomDirections[mode] / 80, height - 80, this.sync.volume * 70, 100)
+      ctx.stroke()
+      ctx.fillStyle = 'rgba(' + mostFrequent + ')'; 
+      ctx.beginPath()
+      ctx.lineWidth = beat
+      // circle(ctx, width / 2, -30, (this.sync.volume * height / 5 + beat / 10) / 5)
+      circle(ctx, -20, height / 2, (this.sync.volume * height / 5 + beat / 10) / 5)
 
-    ctx.stroke()
-    ctx.fill()
-    // circle(ctx, width / 2, height + 30, (this.sync.volume * height / 5 + beat / 10) / 5)
-    circle(ctx, width + 20, height / 2, (this.sync.volume * height / 5 + beat / 10) / 5)
+      ctx.stroke()
+      ctx.fill()
+      // circle(ctx, width / 2, height + 30, (this.sync.volume * height / 5 + beat / 10) / 5)
+      circle(ctx, width + 20, height / 2, (this.sync.volume * height / 5 + beat / 10) / 5)
 
-    ctx.stroke()
-    ctx.fill()
+      ctx.stroke()
+      ctx.fill()
+    }
   }
 }
