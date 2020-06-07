@@ -150,7 +150,7 @@ export default class Sync {
       alert('An error occurred. Please refresh the page.')
     }
     const [ analysis, features ] = await Promise.all([
-      get(this.state.api.trackAnalysis + data.item.id, { headers: this.state.api.headers }).then(res => res.data),
+      get(this.state.api.trackAnalysis + data.item.id, { headers: this.state.api.headers }).catch(error => { alert('Local files are not supported. Try a new song and refresh the page.') }).then(res => res.data),
       get(this.state.api.trackFeatures + data.item.id, { headers: this.state.api.headers }).then(res => res.data),
     ])
 

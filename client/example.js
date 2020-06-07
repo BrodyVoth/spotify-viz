@@ -111,6 +111,14 @@ export default class Example extends Visualizer {
         mostFrequent = Object.keys(counts).find(k => counts[k] === maxCount);
 
         document.body.style.backgroundColor = 'rgba(' + mostFrequent + ')'; 
+
+        // if color getter doesn't find enough of the same color to be proud of the result, add a shadow
+        if (maxCount < 600) { 
+          ctx2.globalCompositeOperation='destination-over';
+          ctx2.shadowBlur = 40;
+          ctx2.shadowColor = "black";
+          ctx2.fillRect(topLeftX + 50, topLeftY + 50, 590, 590); 
+        }
         // end of background color --------------------------------------------
       }
 
