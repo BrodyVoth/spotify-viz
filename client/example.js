@@ -57,8 +57,6 @@ export default class Example extends Visualizer {
   paint ({ ctx, height, width, now }) {
     const bar = interpolateBasis([10, this.sync.volume * 10, 10])(this.sync.bar.progress)
     const beat = interpolateBasis([0, this.sync.volume * 300, 0])(this.sync.beat.progress)
-    var topLeftX = width / 2 - 320
-    var topLeftY = height / 2 - 320
     
     //do this only when it's detected to be a new song or the page was resized since last frame
     if (currentSong != this.sync.state.currentlyPlaying.id || resized) {
@@ -76,6 +74,8 @@ export default class Example extends Visualizer {
           color1 = palette.LightVibrant.getHex()
           color2 = palette.DarkVibrant.getHex()
         })
+        var topLeftX = (width - this.width) / 2
+        var topLeftY = (height - this.height) / 2
 
         ctx2.canvas.width  = width;
         ctx2.canvas.height = height;
@@ -84,9 +84,9 @@ export default class Example extends Visualizer {
         // get background color from border of art ----------------------------
         // get rgb values from border of pixels from art
         var bgNewLeft = ctx2.getImageData(topLeftX, topLeftY, 2, this.height).data
-        var bgNewTop = ctx2.getImageData(topLeftX, topLeftY, this.width, 2).data
+        var bgNewTop = ctx2.getImageData(topLeftX, topLeftY, 640, 2).data
         var bgNewRight = ctx2.getImageData(topLeftX + this.width - 2, topLeftY, 2, this.height).data
-        var bgNewBottom = ctx2.getImageData(topLeftX, topLeftY + this.width - 1, this.width, 2).data
+        var bgNewBottom = ctx2.getImageData(topLeftX, topLeftY + 639, 640, 2).data
         var pixelRows = [bgNewLeft, bgNewTop, bgNewRight, bgNewBottom]
 
         // append rgb values of each pixel to color list. use alpha value to ignore off-screen values (they are rgba(0,0,0,0))
@@ -102,7 +102,6 @@ export default class Example extends Visualizer {
           }
         }
 
-        console.log(colorList.length)
         // find most common exact color
         let counts = colorList.reduce((a, c) => {
           a[c] = (a[c] || 0) + 1;
