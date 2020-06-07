@@ -83,10 +83,10 @@ export default class Example extends Visualizer {
 
         // get background color from border of art ----------------------------
         // get rgb values from border of pixels from art
-        var bgNewLeft = ctx2.getImageData(topLeftX, topLeftY, 2, 640).data
-        var bgNewTop = ctx2.getImageData(topLeftX, topLeftY, 640, 2).data
-        var bgNewRight = ctx2.getImageData(topLeftX + 638, topLeftY, 2, 640).data
-        var bgNewBottom = ctx2.getImageData(topLeftX, topLeftY + 639, 640, 2).data
+        var bgNewLeft = ctx2.getImageData(topLeftX, topLeftY, 2, this.height).data
+        var bgNewTop = ctx2.getImageData(topLeftX, topLeftY, this.width, 2).data
+        var bgNewRight = ctx2.getImageData(topLeftX + this.width - 2, topLeftY, 2, this.height).data
+        var bgNewBottom = ctx2.getImageData(topLeftX, topLeftY + this.width - 1, this.width, 2).data
         var pixelRows = [bgNewLeft, bgNewTop, bgNewRight, bgNewBottom]
 
         // append rgb values of each pixel to color list. use alpha value to ignore off-screen values (they are rgba(0,0,0,0))
@@ -102,6 +102,7 @@ export default class Example extends Visualizer {
           }
         }
 
+        console.log(colorList.length)
         // find most common exact color
         let counts = colorList.reduce((a, c) => {
           a[c] = (a[c] || 0) + 1;
@@ -117,7 +118,7 @@ export default class Example extends Visualizer {
           ctx2.globalCompositeOperation='destination-over';
           ctx2.shadowBlur = 50;
           ctx2.shadowColor = "rgba(0,0,0,0.8)";
-          ctx2.fillRect(topLeftX + 50, topLeftY + 50, 585, 590); 
+          ctx2.fillRect(topLeftX + 49, topLeftY + 49, this.width - 50, this.height - 50); 
         }
         // end of background color --------------------------------------------
       }
